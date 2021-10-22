@@ -16,21 +16,37 @@ export const RankTopTab = () => {
 
     return (
         <RankTab.Navigator
-            tabBarOptions={{
-                pressColor: Theme.colorMain,
-                indicatorStyle: {
-                    backgroundColor: Theme.colorMain
+            // tabBarOptions={{
+            //     pressColor: Theme.colorMain,
+            //     indicatorStyle: {
+            //         backgroundColor: Theme.colorMain
+            //     },
+            //     style: {
+            //         borderBottomWidth: 1,
+            //         borderBottomColor: '#f5f5f5'
+            //     },
+            //     labelStyle: {
+            //         textTransform: 'none',
+            //         fontSize: Theme.fontMedium
+            //     },
+            //     inactiveTintColor: '#1b1b1b',
+            //     activeTintColor: Theme.colorMain,
+            // }}
+            screenOptions={{
+                tabBarPressColor: Theme.colorMain,
+                tabBarIndicatorStyle: {
+                    backgroundColor: Theme.colorMain,
                 },
-                style: {
+                tabBarStyle: {
                     borderBottomWidth: 1,
                     borderBottomColor: '#f5f5f5'
                 },
-                labelStyle: {
+                tabBarLabelStyle: {
                     textTransform: 'none',
-                    fontSize: Theme.fontMedium
+                    fontSize: Theme.fontMedium,
                 },
-                inactiveTintColor: '#1b1b1b',
-                activeTintColor: Theme.colorMain,
+                tabBarActiveTintColor: Theme.colorMain,
+                tabBarInactiveTintColor: '#1b1b1b',
             }}
         >
             {

@@ -8,18 +8,32 @@ const AffiliateTab = createMaterialTopTabNavigator();
 export const AffiliateTopTab = () => {
     return (
         <AffiliateTab.Navigator
-            tabBarOptions={{
-                pressColor: Theme.colorMain,
-                indicatorStyle: {
-                    backgroundColor: Theme.colorMain
+            // tabBarOptions={{
+            //     pressColor: Theme.colorMain,
+            //     indicatorStyle: {
+            //         backgroundColor: Theme.colorMain
+            //     },
+            //     style: {
+            //         borderBottomWidth: 1,
+            //         borderBottomColor: '#dedede'
+            //     },
+            //     labelStyle: {
+            //         textTransform: 'none',
+            //         color: 'black'
+            //     }
+            // }}
+            screenOptions={{
+                tabBarPressColor: Theme.colorMain,
+                tabBarIndicatorStyle: {
+                    backgroundColor: Theme.colorMain,
                 },
-                style: {
+                tabBarStyle: {
                     borderBottomWidth: 1,
-                    borderBottomColor: '#dedede'
+                    borderBottomColor: '#dedede',
                 },
-                labelStyle: {
+                tabBarLabelStyle: {
                     textTransform: 'none',
-                    color: 'black'
+                    color: 'black',
                 }
             }}
         >

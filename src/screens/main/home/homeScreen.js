@@ -245,6 +245,7 @@ export default function HomeScreen() {
                                         <View style={{marginVertical: WIDTH * 0.02}}/>
                                     );
                                 }}
+                                nestedScrollEnabled={true}
                             />
                         </View>
                         {/** end utilities */}

@@ -431,14 +431,13 @@ const OrderTopTab = () => {
             //     }
             // }}
             screenOptions={{
-                pressColor: Theme.colorMain,
-                indicatorStyle: {
+                tabBarPressColor: Theme.colorMain,
+                tabBarIndicatorStyle: {
                     backgroundColor: Theme.colorMain,
                 },
-                scrollEnabled: true,
-                upperCaseLabel: false,
-                tabStyle: {
-                    width: WIDTH * 0.4
+                tabBarScrollEnabled: true,
+                tabBarItemStyle: {
+                    width: WIDTH * 0.4,
                 }
             }}
         >
@@ -672,21 +671,6 @@ const AccountStackScreen = () => {
                     headerTintColor: 'white',
                 }}
             />
-            {/*<AccountStack.Screen*/}
-            {/*    name={navigationName.accountStack.MEMBER_SHIP}*/}
-            {/*    component={MemberShipScreen}*/}
-            {/*    options={{*/}
-            {/*        title: 'Ưu đãi hạng',*/}
-            {/*        cardStyle: {*/}
-            {/*            backgroundColor: Theme.colorBackground,*/}
-            {/*        },*/}
-            {/*        headerBackTitle: "Trở về",*/}
-            {/*        headerStyle: {*/}
-            {/*            backgroundColor: Theme.colorMain,*/}
-            {/*        },*/}
-            {/*        headerTintColor: 'white',*/}
-            {/*    }}*/}
-            {/*/>*/}
             <AccountStack.Screen
                 name={navigationName.accountStack.POINT}
                 component={PointScreen}
@@ -817,14 +801,14 @@ const ManageAppointmentTopTab = () => {
             //     },
             // }}
             screenOptions={{
-                pressColor: Theme.colorMain,
-                indicatorStyle: {
+                tabBarPressColor: Theme.colorMain,
+                tabBarIndicatorStyle: {
                     backgroundColor: Theme.colorMain,
                 },
-                labelStyle: {
+                tabBarLabelStyle: {
                     textTransform: 'none',
-                    fontSize: Theme.fontMedium
-                },
+                    fontSize: Theme.fontMedium,
+                }
             }}
         >
             <ManageAppointmentTab.Screen
@@ -1009,13 +993,13 @@ const TabBottomScreen = () => {
 
             })}
             */
-            // tabBarOptions={{
+            // screenOptions={{
             //     activeTintColor: Theme.colorMain,
             //     inactiveTintColor: 'gray',
             // }}
             screenOptions={{
-                activeTintColor: Theme.colorMain,
-                inactiveTintColor: 'gray',
+                tabBarActiveTintColor: Theme.colorMain,
+                tabBarInactiveTintColor: 'gray',
                 headerShown: false,
             }}
         >

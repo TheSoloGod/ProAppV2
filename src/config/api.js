@@ -1,4 +1,4 @@
-const URL = 'http://b813-118-71-166-49.ngrok.io/api';
+const URL = 'https://989b-42-112-92-9.ngrok.io/api';
 
 /** api auth */
 export const POST_LOGIN = `${URL}/auth/login`;

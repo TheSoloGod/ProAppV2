@@ -12,20 +12,20 @@ export default function StoreTopTab() {
 
     return (
         <StoreTab.Navigator
-            tabBarOptions={{
-                scrollEnabled: true,
-                pressColor: Theme.colorMain,
-                indicatorStyle: {
-                    backgroundColor: Theme.colorMain
+            screenOptions={{
+                tabBarScrollEnabled: true,
+                tabBarPressColor: Theme.colorMain,
+                tabBarIndicatorStyle: {
+                    backgroundColor: Theme.colorMain,
                 },
-                tabStyle: {
-                    width: WIDTH * 0.3
+                tabBarItemStyle: {
+                    width: WIDTH * 0.3,
                 },
-                labelStyle: {
+                tabBarLabelStyle: {
                     textTransform: 'none',
                     fontSize: Theme.fontMedium,
-                    color: 'black'
-                },
+                    color: 'black',
+                }
             }}
         >
             {categories.map((category, index) => {

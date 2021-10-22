@@ -8,19 +8,34 @@ const PointTab = createMaterialTopTabNavigator();
 export const PointTopTab = () => {
     return (
         <PointTab.Navigator
-            tabBarOptions={{
-                pressColor: Theme.colorMain,
-                indicatorStyle: {
-                    backgroundColor: Theme.colorMain
+            // tabBarOptions={{
+            //     pressColor: Theme.colorMain,
+            //     indicatorStyle: {
+            //         backgroundColor: Theme.colorMain
+            //     },
+            //     style: {
+            //         borderBottomWidth: 2,
+            //         borderBottomColor: '#dedede'
+            //     },
+            //     labelStyle: {
+            //         textTransform: 'none',
+            //         fontSize: Theme.fontMedium,
+            //         color: 'black'
+            //     }
+            // }}
+            screenOptions={{
+                tabBarPressColor: Theme.colorMain,
+                tabBarIndicatorStyle: {
+                    backgroundColor: Theme.colorMain,
                 },
-                style: {
+                tabBarStyle: {
                     borderBottomWidth: 2,
-                    borderBottomColor: '#dedede'
+                    borderBottomColor: '#dedede',
                 },
-                labelStyle: {
+                tabBarLabelStyle: {
                     textTransform: 'none',
                     fontSize: Theme.fontMedium,
-                    color: 'black'
+                    color: 'black',
                 }
             }}
         >
