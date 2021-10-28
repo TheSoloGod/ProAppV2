@@ -21,7 +21,7 @@ const categoryReducer = (state = initState, action) => {
         case categoryAction.types.LOAD_PRODUCTS_IN_CATEGORY_TRIGGER:
             console.info('load products in category trigger');
             params = action.payload;
-            let category = action.payload.category;
+            let category = params.category;
             categories_clone = [...state.categories];
             categories_clone[category.index].current_page = params.page;
             return {
@@ -31,14 +31,15 @@ const categoryReducer = (state = initState, action) => {
         case categoryAction.types.LOAD_PRODUCTS_IN_CATEGORY_SUCCESS:
             console.info('load products in category success');
             params = action.payload;
+            let index = params.category.index;
             categories_clone = [...state.categories];
-            if (categories_clone[params.category.index].current_page === 1) {
-                categories_clone[params.category.index].products = params.products;
+            if (categories_clone[index].current_page === 1) {
+                categories_clone[index].products = params.products;
             } else {
-                categories_clone[params.category.index].products = categories_clone[params.category.index].products.concat(params.products);
+                categories_clone[index].products = categories_clone[index].products.concat(params.products);
             }
-            categories_clone[params.category.index].load_more = params.products.length > 0;
-            categories_clone[params.category.index].current_page = params.products.length > 0 ? state.categories[params.category.index].current_page + 1 : state.categories[params.category.index].current_page;
+            categories_clone[index].load_more = params.products.length > 0;
+            categories_clone[index].current_page = params.products.length > 0 ? state.categories[index].current_page + 1 : state.categories[index].current_page;
             return {
                 ...state,
                 categories: categories_clone,

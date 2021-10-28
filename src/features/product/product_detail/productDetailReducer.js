@@ -1,8 +1,8 @@
 import productDetailActions from './productDetailAction';
 
 const initState = {
-    product: {},
-    is_loading: false,
+    product: null,
+    is_loading_product_detail: false,
     // products_reference: [],
     products_reference: [
         {id: 1, name: 'Thịt ba chỉ', price: 100000, uri: 'https://sudospaces.com/bakafood-com/2019/07/thit-heo-sach-ba-roi-rut-suon-2-large.jpg'},
@@ -29,7 +29,7 @@ const productDetailReducer = (state = initState, action) => {
             console.info('update loading product detail', action.payload);
             return {
                 ...state,
-                is_loading: action.payload,
+                is_loading_product_detail: action.payload,
             };
         case productDetailActions.types.GET_PRODUCT_REFERENCE_TRIGGER:
             console.info('get product reference trigger');

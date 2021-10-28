@@ -12,6 +12,7 @@ import {
     Platform,
     Button,
     ImageBackground,
+    LogBox,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import authActions from '../../../features/auth/authAction';
@@ -63,6 +64,8 @@ export default function HomeScreen() {
     const carouselRef = useRef();
 
     useEffect(() => {
+        LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+
         dispatch(categoryActions.triggerGetCategories());
         dispatch(bannerActions.triggerGetListBanner());
         dispatch(postPromotionalActions.triggerGetListPostPromotional());
@@ -245,7 +248,6 @@ export default function HomeScreen() {
                                         <View style={{marginVertical: WIDTH * 0.02}}/>
                                     );
                                 }}
-                                nestedScrollEnabled={true}
                             />
                         </View>
                         {/** end utilities */}
@@ -261,20 +263,19 @@ export default function HomeScreen() {
                                 ?
                                     <LoadingBannerComponent/>
                                     :
-                                    // <Carousel
-                                    //     layout={"default"}
-                                    //     ref={carouselRef}
-                                    //     data={list_banners}
-                                    //     sliderWidth={WIDTH}
-                                    //     itemWidth={WIDTH}
-                                    //     renderItem={renderBannerCarousel}
-                                    //     // onSnapToItem = { index => setActiveIndex(index) }
-                                    //     containerCustomStyle={{marginVertical: WIDTH * 0.02}}
-                                    //     removeClippedSubviews={false}
-                                    //     autoplay={true}
-                                    //     loop={true}
-                                    // />
-                                <View/>
+                                    <Carousel
+                                        layout={"default"}
+                                        ref={carouselRef}
+                                        data={list_banners}
+                                        sliderWidth={WIDTH}
+                                        itemWidth={WIDTH}
+                                        renderItem={renderBannerCarousel}
+                                        // onSnapToItem = { index => setActiveIndex(index) }
+                                        containerCustomStyle={{marginVertical: WIDTH * 0.02}}
+                                        removeClippedSubviews={false}
+                                        autoplay={true}
+                                        loop={true}
+                                    />
                             }
                         </View>
                         {/** end banner */}
@@ -369,7 +370,6 @@ export default function HomeScreen() {
                                         <FlatList
                                             data={list_posts_promotional}
                                             renderItem={({item}) => {
-                                                console.log(item);
                                                 return (
                                                     <PostCardComponent item={item}/>
                                                 );

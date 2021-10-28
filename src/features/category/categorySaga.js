@@ -42,13 +42,13 @@ function requestGetProductsInCategory(category_id, page) {
 
 function* loadProductsInCategory({payload: params}) {
     try {
-        if (params.page === 1) yield put(productActions.updateLoadingProduct(true));
+        // if (params.page === 1) yield put(productActions.updateLoadingProduct(true));
         const products_of_category = yield call(requestGetProductsInCategory, params.category.id, params.page);
         yield put(categoryActions.loadProductsInCategorySuccess({products: products_of_category, category: params.category}));
     } catch (e) {
         console.error('Get products in category saga error', e);
     } finally {
-        if (params.page === 1) yield put(productActions.updateLoadingProduct(false));
+        // if (params.page === 1) yield put(productActions.updateLoadingProduct(false));
     }
 }
 

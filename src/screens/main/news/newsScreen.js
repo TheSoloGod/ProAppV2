@@ -25,7 +25,6 @@ export default function NewsScreen() {
     const is_loading_posts_promotion = useSelector(state => state.postPromotionalReducer.is_loading);
     const {WIDTH} = AppConst;
     const route = useRoute();
-    console.log(route.params);
 
     useEffect(() => {
         dispatch(newsActions.triggerGetListNews());

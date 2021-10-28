@@ -22,12 +22,21 @@ export default function ListProductScreen() {
     const route = useRoute();
     const dispatch = useDispatch();
     const {products, current_page, load_more} = useSelector(state => state.categoryReducer.categories[route.params.category.index]);
+    const {categories} = useSelector(state => state.categoryReducer);
 
     useEffect(() => {
         dispatch(categoryActions.loadProductsInCategoryTrigger({category: route.params.category, page: 1}));
     }, []);
 
+    // useEffect(() => {
+    //     console.log(categories);
+    //     console.log(route.params.category.index);
+    //     console.log(products);
+    // }, [categories]);
+
     return (
+        <>
+
         <SafeAreaView style={{
             flex: 1,
             backgroundColor: Theme.colorBackground
@@ -49,5 +58,6 @@ export default function ListProductScreen() {
                 }}
             />
         </SafeAreaView>
+        </>
     );
 }

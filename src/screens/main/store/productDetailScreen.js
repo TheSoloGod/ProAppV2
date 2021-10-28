@@ -16,6 +16,7 @@ import Carousel from 'react-native-snap-carousel';
 import QuickCartComponent from '../../../components/cart/quickCartComponent';
 import ProductCardComponent from '../../../components/card/productCardComponent';
 import productDetailActions from '../../../features/product/product_detail/productDetailAction';
+import LoadingComponent from '../../../components/loading/loadingComponent';
 
 export default function ProductDetailScreen() {
     const navigation = useNavigation();
@@ -25,7 +26,7 @@ export default function ProductDetailScreen() {
     const scrollRef = useRef();
     const carouselRef = useRef();
 
-    const {product, products_reference} = useSelector(state => state.productDetailReducer);
+    const {product, products_reference, is_loading_product_detail} = useSelector(state => state.productDetailReducer);
     const [product_images, setProductImages] = useState([]);
     const [productInfo, setProductInfo] = useState([]);
     const [is_modal_visible, setModalVisible] = useState(false);
@@ -49,7 +50,7 @@ export default function ProductDetailScreen() {
                 {id: 1, key: 'Xuất xứ', value: product.origin},
                 {id: 2, key: 'Hạn sử dụng', value: product.expire_date},
                 {id: 3, key: 'Bảo hành', value: product.guarantee},
-            ])
+            ]);
         }
     }, [product]);
 
@@ -153,403 +154,406 @@ export default function ProductDetailScreen() {
     };
 
     return (
-        <SafeAreaView style={{flex: 1}}>
-            <ScrollView ref={scrollRef}>
-                <Carousel
-                    layout={"default"}
-                    ref={carouselRef}
-                    data={product_images}
-                    sliderWidth={WIDTH}
-                    itemWidth={WIDTH}
-                    renderItem={renderItemCarousel}
-                    onSnapToItem = {() => {}}
-                    // containerCustomStyle={{marginVertical: WIDTH * 0.02}}
-                    removeClippedSubviews={false}
-                    autoplay={true}
-                    loop={true}
-                />
-
-                {/*noi dung san pham*/}
-                <View style={{
-                    marginVertical: WIDTH * 0.03,
-                    alignSelf: 'center',
-                    alignItems: 'center',
-                }}>
-                    <Text style={{
-                        fontWeight: '500',
-                        fontSize: Theme.fontLarge,
-                        marginTop: WIDTH * 0.05,
-                        textAlign: 'center'
-                    }}>
-                        {product.name}
-                    </Text>
-                    <View style={{
-                        flexDirection: 'row',
-                        marginTop: WIDTH * 0.02,
-                        alignItems: 'center'
-                    }}>
-                        <Text style={{
-                            color: 'gray',
-                            fontSize: Theme.fontLarge + 2,
-                            textDecorationLine: 'line-through'
-                        }}>
-                            {/*{Helper.formatCurrency(product.price)}*/}
-                        </Text>
-                        <Text style={{
-                            color: Theme.colorMain,
-                            fontSize: Theme.fontLarge + 2,
-                            fontWeight: '600',
-                            paddingHorizontal: WIDTH * 0.02
-                        }}>
-                            {/*{Helper.formatCurrency(product.price)}*/}
-                        </Text>
-                        <Text style={{
-                            color: 'gray',
-                            fontWeight: '500',
-                        }}>
-                            / 1 {product.unit}
-                        </Text>
-                    </View>
-                </View>
-                <View style={{
-                    paddingHorizontal: WIDTH * 0.015,
-                    paddingVertical: WIDTH * 0.01,
-                    backgroundColor: 'rgba(255, 140, 0, 1)',
-                    position: 'absolute',
-                    alignSelf: 'flex-start',
-                    marginTop: WIDTH * 0.5
-                }}>
-                    <Text style={{
-                        color: 'white'
-                    }}>
-                        {/*{Helper.calculateDiscountPercent(product.price, product.compare_at_price)}*/}
-                        -10%
-                    </Text>
-                </View>
-
-                {/*yeu thich mua ngay*/}
-                <View style={{
-                    flexDirection: 'row',
-                    justifyContent: 'space-around',
-                    paddingHorizontal: WIDTH * 0.15,
-                    marginTop: WIDTH * 0.05
-                }}>
-                    <View>
-                        <Button
-                            icon={
-                                <IonIcon
-                                    name={'heart-outline'}
-                                    size={20}
-                                    color={Theme.colorMain}
-                                />
-                            }
-                            title={"Yêu thích"}
-                            type={"outline"}
-                            titleStyle={{
-                                color: Theme.colorMain,
-                                paddingLeft: WIDTH * 0.02
-                            }}
-                            buttonStyle={{
-                                borderColor: Theme.colorMain,
-                                padding: WIDTH * 0.023
-                            }}
-                            onPress={toastSuccess}
-                        />
-                    </View>
-                    <View>
-                        <Button
-                            icon={
-                                <IonIcon
-                                    name="cart-outline"
-                                    size={20}
-                                    color="white"
-                                />
-                            }
-                            title="Mua ngay"
-                            titleStyle={{
-                                color: 'white',
-                                paddingLeft: WIDTH * 0.02
-                            }}
-                            buttonStyle={{
-                                borderColor: Theme.colorMain,
-                                backgroundColor: Theme.colorMain,
-                                padding: WIDTH * 0.023
-                            }}
-                            onPress={toggleModal}
-                        />
-                    </View>
-                </View>
-
-                {/*thong so*/}
-                <View style={{
-                    marginVertical: WIDTH * 0.05
-                }}>
-                    <FlatList
-                        data={productInfo}
-                        renderItem={renderProductInfo}
-                        keyExtractor={(item, index) => item.id.toString()}
+        <>
+            {is_loading_product_detail && <LoadingComponent is_visible={is_loading_product_detail}/>}
+            <SafeAreaView style={{flex: 1}}>
+                <ScrollView ref={scrollRef}>
+                    <Carousel
+                        layout={"default"}
+                        ref={carouselRef}
+                        data={product_images}
+                        sliderWidth={WIDTH}
+                        itemWidth={WIDTH}
+                        renderItem={renderItemCarousel}
+                        onSnapToItem = {() => {}}
+                        // containerCustomStyle={{marginVertical: WIDTH * 0.02}}
+                        removeClippedSubviews={false}
+                        autoplay={true}
+                        loop={true}
                     />
-                    <View style={{
-                        borderBottomWidth: 0.4,
-                        borderColor: 'gray'
-                    }}/>
-                </View>
 
-                {/*mo ta*/}
-                <View style={{
-                    width: WIDTH * 0.94,
-                    alignSelf: 'center'
-                }}>
-                    <Text style={{
-                        textAlign: 'justify'
-                    }}>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                    </Text>
-                </View>
-
-                {/*san pham cung danh muc*/}
-                <View style={{
-                    backgroundColor: '#f2f2f2',
-                    marginTop: WIDTH * 0.05,
-                }}>
-                    <Text style={{
-                        paddingVertical: WIDTH * 0.05,
-                        fontSize: Theme.fontLarge,
-                        alignSelf: 'center'
-                    }}>
-                        --- Sản phẩm cùng danh mục ---
-                    </Text>
-                    <View>
-                        {/*<FlatList*/}
-                        {/*    data={products_reference}*/}
-                        {/*    renderItem={({item}) => {return (<ProductCardComponent item={item}/>)}}*/}
-                        {/*    keyExtractor={(item, index) => item.id.toString()}*/}
-                        {/*    style={{*/}
-                        {/*        alignSelf: 'center'*/}
-                        {/*    }}*/}
-                        {/*    numColumns={2}*/}
-                        {/*/>*/}
-                    </View>
-                </View>
-            </ScrollView>
-            <QuickCartComponent/>
-            <Modal
-                isVisible={is_modal_visible}
-                animationIn={"slideInUp"}
-                animationOut={"slideOutDown"}
-                avoidKeyboard={true}
-                onBackdropPress={() => {
-                    toggleModal()
-                }}
-                onBackButtonPress={() => {
-                    toggleModal()
-                }}
-                propagateSwipe={true}
-                style={{
-                    alignItems: "center",
-                    justifyContent: "flex-end",
-                }}
-            >
-                <View>
-                    {/*<Button title="Hide modal" onPress={toggleModal} />*/}
+                    {/*noi dung san pham*/}
                     <View style={{
-                        width: WIDTH,
-                        height: HEIGHT * 0.5,
-                        backgroundColor: "white",
-                        borderRadius: WIDTH * 0.02,
-                        marginBottom: WIDTH * -0.05
+                        marginVertical: WIDTH * 0.03,
+                        alignSelf: 'center',
+                        alignItems: 'center',
                     }}>
-                        {/*<TouchableOpacity style={{*/}
-                        {/*    alignSelf: 'flex-end',*/}
-                        {/*    paddingTop: WIDTH * 0.02,*/}
-                        {/*    paddingRight: WIDTH * 0.03*/}
-                        {/*}} onPress={() => {toggleModal()}}>*/}
-                        {/*    <FontAwesome5Icon name={'times'} size={30} color={Theme.colorMain} />*/}
-                        {/*</TouchableOpacity>*/}
+                        <Text style={{
+                            fontWeight: '500',
+                            fontSize: Theme.fontLarge,
+                            marginTop: WIDTH * 0.05,
+                            textAlign: 'center'
+                        }}>
+                            {product.name}
+                        </Text>
                         <View style={{
                             flexDirection: 'row',
-                            paddingTop: WIDTH * 0.05,
+                            marginTop: WIDTH * 0.02,
+                            alignItems: 'center'
                         }}>
-                            <View style={{
-                                width: WIDTH * 0.3,
-                                alignItems: 'center',
+                            <Text style={{
+                                color: 'gray',
+                                fontSize: Theme.fontLarge + 2,
+                                textDecorationLine: 'line-through'
                             }}>
-                                <Image
-                                    source={{uri: 'https://daynghevietuc.com/wp-content/uploads/2017/06/nha-hang-fast-food-min.jpg'}}
-                                    style={{
-                                        width: WIDTH * 0.25,
-                                        height: WIDTH * 0.25,
-                                        borderRadius: WIDTH * 0.01
-                                    }}
-                                />
-                            </View>
+                                {/*{Helper.formatCurrency(product.price)}*/}
+                            </Text>
+                            <Text style={{
+                                color: Theme.colorMain,
+                                fontSize: Theme.fontLarge + 2,
+                                fontWeight: '600',
+                                paddingHorizontal: WIDTH * 0.02
+                            }}>
+                                {/*{Helper.formatCurrency(product.price)}*/}
+                            </Text>
+                            <Text style={{
+                                color: 'gray',
+                                fontWeight: '500',
+                            }}>
+                                / 1 {product.unit}
+                            </Text>
+                        </View>
+                    </View>
+                    <View style={{
+                        paddingHorizontal: WIDTH * 0.015,
+                        paddingVertical: WIDTH * 0.01,
+                        backgroundColor: 'rgba(255, 140, 0, 1)',
+                        position: 'absolute',
+                        alignSelf: 'flex-start',
+                        marginTop: WIDTH * 0.5
+                    }}>
+                        <Text style={{
+                            color: 'white'
+                        }}>
+                            {/*{Helper.calculateDiscountPercent(product.price, product.compare_at_price)}*/}
+                            -10%
+                        </Text>
+                    </View>
+
+                    {/** yeu thich mua ngay */}
+                    <View style={{
+                        flexDirection: 'row',
+                        justifyContent: 'space-around',
+                        paddingHorizontal: WIDTH * 0.15,
+                        marginTop: WIDTH * 0.05
+                    }}>
+                        <View>
+                            <Button
+                                icon={
+                                    <IonIcon
+                                        name={'heart-outline'}
+                                        size={20}
+                                        color={Theme.colorMain}
+                                    />
+                                }
+                                title={"Yêu thích"}
+                                type={"outline"}
+                                titleStyle={{
+                                    color: Theme.colorMain,
+                                    paddingLeft: WIDTH * 0.02
+                                }}
+                                buttonStyle={{
+                                    borderColor: Theme.colorMain,
+                                    padding: WIDTH * 0.023
+                                }}
+                                onPress={toastSuccess}
+                            />
+                        </View>
+                        <View>
+                            <Button
+                                icon={
+                                    <IonIcon
+                                        name="cart-outline"
+                                        size={20}
+                                        color="white"
+                                    />
+                                }
+                                title="Mua ngay"
+                                titleStyle={{
+                                    color: 'white',
+                                    paddingLeft: WIDTH * 0.02
+                                }}
+                                buttonStyle={{
+                                    borderColor: Theme.colorMain,
+                                    backgroundColor: Theme.colorMain,
+                                    padding: WIDTH * 0.023
+                                }}
+                                onPress={toggleModal}
+                            />
+                        </View>
+                    </View>
+
+                    {/** thong so */}
+                    <View style={{
+                        marginVertical: WIDTH * 0.05
+                    }}>
+                        <FlatList
+                            data={productInfo}
+                            renderItem={renderProductInfo}
+                            keyExtractor={(item, index) => item.id.toString()}
+                        />
+                        <View style={{
+                            borderBottomWidth: 0.4,
+                            borderColor: 'gray'
+                        }}/>
+                    </View>
+
+                    {/** mo ta */}
+                    <View style={{
+                        width: WIDTH * 0.94,
+                        alignSelf: 'center'
+                    }}>
+                        <Text style={{
+                            textAlign: 'justify'
+                        }}>
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </Text>
+                    </View>
+
+                    {/** san pham cung danh muc */}
+                    <View style={{
+                        backgroundColor: '#f2f2f2',
+                        marginTop: WIDTH * 0.05,
+                    }}>
+                        <Text style={{
+                            paddingVertical: WIDTH * 0.05,
+                            fontSize: Theme.fontLarge,
+                            alignSelf: 'center'
+                        }}>
+                            --- Sản phẩm cùng danh mục ---
+                        </Text>
+                        <View>
+                            {/*<FlatList*/}
+                            {/*    data={products_reference}*/}
+                            {/*    renderItem={({item}) => {return (<ProductCardComponent item={item}/>)}}*/}
+                            {/*    keyExtractor={(item, index) => item.id.toString()}*/}
+                            {/*    style={{*/}
+                            {/*        alignSelf: 'center'*/}
+                            {/*    }}*/}
+                            {/*    numColumns={2}*/}
+                            {/*/>*/}
+                        </View>
+                    </View>
+                </ScrollView>
+                <QuickCartComponent/>
+                <Modal
+                    isVisible={is_modal_visible}
+                    animationIn={"slideInUp"}
+                    animationOut={"slideOutDown"}
+                    avoidKeyboard={true}
+                    onBackdropPress={() => {
+                        toggleModal()
+                    }}
+                    onBackButtonPress={() => {
+                        toggleModal()
+                    }}
+                    propagateSwipe={true}
+                    style={{
+                        alignItems: "center",
+                        justifyContent: "flex-end",
+                    }}
+                >
+                    <View>
+                        {/*<Button title="Hide modal" onPress={toggleModal} />*/}
+                        <View style={{
+                            width: WIDTH,
+                            height: HEIGHT * 0.5,
+                            backgroundColor: "white",
+                            borderRadius: WIDTH * 0.02,
+                            marginBottom: WIDTH * -0.05
+                        }}>
+                            {/*<TouchableOpacity style={{*/}
+                            {/*    alignSelf: 'flex-end',*/}
+                            {/*    paddingTop: WIDTH * 0.02,*/}
+                            {/*    paddingRight: WIDTH * 0.03*/}
+                            {/*}} onPress={() => {toggleModal()}}>*/}
+                            {/*    <FontAwesome5Icon name={'times'} size={30} color={Theme.colorMain} />*/}
+                            {/*</TouchableOpacity>*/}
                             <View style={{
-                                width: WIDTH * 0.7,
-                                paddingRight: WIDTH * 0.02
+                                flexDirection: 'row',
+                                paddingTop: WIDTH * 0.05,
+                            }}>
+                                <View style={{
+                                    width: WIDTH * 0.3,
+                                    alignItems: 'center',
+                                }}>
+                                    <Image
+                                        source={{uri: 'https://daynghevietuc.com/wp-content/uploads/2017/06/nha-hang-fast-food-min.jpg'}}
+                                        style={{
+                                            width: WIDTH * 0.25,
+                                            height: WIDTH * 0.25,
+                                            borderRadius: WIDTH * 0.01
+                                        }}
+                                    />
+                                </View>
+                                <View style={{
+                                    width: WIDTH * 0.7,
+                                    paddingRight: WIDTH * 0.02
+                                }}>
+                                    <Text style={{
+                                        fontWeight: '400',
+                                        fontSize: Theme.fontLarge
+                                    }}>
+                                        Món ăn ngon không ngán ngày Tết (không gây béo)
+                                    </Text>
+                                    <Text style={{
+                                        color: 'gray',
+                                        marginTop: WIDTH * 0.02
+                                    }}>
+                                        - Chưa chọn thuộc tính
+                                    </Text>
+                                    <Text style={{
+                                        fontWeight: '500',
+                                        fontSize: Theme.fontLarge,
+                                        marginTop: WIDTH * 0.02
+                                    }}>
+                                        100.000đ - 200.000đ
+                                    </Text>
+                                    <Text style={{
+                                        color: 'gray',
+                                        marginTop: WIDTH * 0.01
+                                    }}>
+                                        Kho: 120
+                                    </Text>
+                                </View>
+                            </View>
+                            <Divider style={{
+                                marginVertical: WIDTH * 0.03
+                            }}/>
+                            <View style={{
+                                paddingHorizontal: WIDTH * 0.02
+                            }}>
+                                <Text style={{
+                                    fontWeight: '400',
+                                    fontSize: Theme.fontLarge,
+                                    marginBottom: WIDTH * 0.02
+                                }}>
+                                    Variant 1
+                                </Text>
+                                <View style={{
+                                    flexDirection: 'row',
+                                    marginTop: WIDTH * 0.02
+                                }}>
+                                    <View style={{
+                                        paddingHorizontal: WIDTH * 0.02,
+                                        paddingVertical: WIDTH * 0.02,
+                                        backgroundColor: '#f0f0f0',
+                                        width: WIDTH * 0.2,
+                                        borderRadius: WIDTH * 0.01,
+                                        marginRight: WIDTH * 0.02
+                                    }}>
+                                        <Text>
+                                            Biến thể
+                                        </Text>
+                                    </View>
+                                    <View style={{
+                                        paddingHorizontal: WIDTH * 0.02,
+                                        paddingVertical: WIDTH * 0.02,
+                                        backgroundColor: '#f0f0f0',
+                                        width: WIDTH * 0.2,
+                                        borderRadius: WIDTH * 0.01,
+                                        marginRight: WIDTH * 0.02
+                                    }}>
+                                        <Text>
+                                            Biến thể
+                                        </Text>
+                                    </View>
+                                </View>
+                            </View>
+                            <Divider style={{
+                                marginVertical: WIDTH * 0.05
+                            }}/>
+                            <View style={{
+                                paddingHorizontal: WIDTH * 0.02,
+                                flexDirection: 'row',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
                             }}>
                                 <Text style={{
                                     fontWeight: '400',
                                     fontSize: Theme.fontLarge
                                 }}>
-                                    Món ăn ngon không ngán ngày Tết (không gây béo)
+                                    Số lượng
                                 </Text>
-                                <Text style={{
-                                    color: 'gray',
-                                    marginTop: WIDTH * 0.02
-                                }}>
-                                    - Chưa chọn thuộc tính
-                                </Text>
-                                <Text style={{
-                                    fontWeight: '500',
-                                    fontSize: Theme.fontLarge,
-                                    marginTop: WIDTH * 0.02
-                                }}>
-                                    100.000đ - 200.000đ
-                                </Text>
-                                <Text style={{
-                                    color: 'gray',
-                                    marginTop: WIDTH * 0.01
-                                }}>
-                                    Kho: 120
-                                </Text>
-                            </View>
-                        </View>
-                        <Divider style={{
-                            marginVertical: WIDTH * 0.03
-                        }}/>
-                        <View style={{
-                            paddingHorizontal: WIDTH * 0.02
-                        }}>
-                            <Text style={{
-                                fontWeight: '400',
-                                fontSize: Theme.fontLarge,
-                                marginBottom: WIDTH * 0.02
-                            }}>
-                                Variant 1
-                            </Text>
-                            <View style={{
-                                flexDirection: 'row',
-                                marginTop: WIDTH * 0.02
-                            }}>
                                 <View style={{
-                                    paddingHorizontal: WIDTH * 0.02,
-                                    paddingVertical: WIDTH * 0.02,
-                                    backgroundColor: '#f0f0f0',
-                                    width: WIDTH * 0.2,
-                                    borderRadius: WIDTH * 0.01,
-                                    marginRight: WIDTH * 0.02
+                                    flexDirection: 'row'
                                 }}>
-                                    <Text>
-                                        Biến thể
-                                    </Text>
-                                </View>
-                                <View style={{
-                                    paddingHorizontal: WIDTH * 0.02,
-                                    paddingVertical: WIDTH * 0.02,
-                                    backgroundColor: '#f0f0f0',
-                                    width: WIDTH * 0.2,
-                                    borderRadius: WIDTH * 0.01,
-                                    marginRight: WIDTH * 0.02
-                                }}>
-                                    <Text>
-                                        Biến thể
-                                    </Text>
-                                </View>
-                            </View>
-                        </View>
-                        <Divider style={{
-                            marginVertical: WIDTH * 0.05
-                        }}/>
-                        <View style={{
-                            paddingHorizontal: WIDTH * 0.02,
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                        }}>
-                            <Text style={{
-                                fontWeight: '400',
-                                fontSize: Theme.fontLarge
-                            }}>
-                                Số lượng
-                            </Text>
-                            <View style={{
-                                flexDirection: 'row'
-                            }}>
-                                <View style={{
-                                    width: WIDTH * 0.08,
-                                    height: WIDTH * 0.08,
-                                    borderColor: 'gray',
-                                    borderWidth: 1,
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                }}>
-                                    <Text style={{
-                                        fontSize: Theme.fontLarger,
-                                        color: 'gray'
-                                    }}>
-                                        -
-                                    </Text>
-                                </View>
-                                <TextInput
-                                    style={{
-                                        width: WIDTH * 0.12,
-                                        height: WIDTH * 0.078,
+                                    <View style={{
+                                        width: WIDTH * 0.08,
+                                        height: WIDTH * 0.08,
                                         borderColor: 'gray',
-                                        borderTopWidth: 1,
-                                        borderBottomWidth: 1,
-                                        paddingHorizontal: WIDTH * 0.02,
-                                        textAlign: 'center',
-                                        color: Theme.colorMain
-                                    }}
-                                    onChangeText={() => {}}
-                                    value={'1234'}
-                                />
-                                <View style={{
-                                    width: WIDTH * 0.08,
-                                    height: WIDTH * 0.08,
-                                    borderColor: 'gray',
-                                    borderWidth: 1,
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                }}>
-                                    <Text style={{
-                                        fontSize: Theme.fontLarger,
-                                        color: 'gray'
+                                        borderWidth: 1,
+                                        alignItems: 'center',
+                                        justifyContent: 'center'
                                     }}>
-                                        +
-                                    </Text>
+                                        <Text style={{
+                                            fontSize: Theme.fontLarger,
+                                            color: 'gray'
+                                        }}>
+                                            -
+                                        </Text>
+                                    </View>
+                                    <TextInput
+                                        style={{
+                                            width: WIDTH * 0.12,
+                                            height: WIDTH * 0.078,
+                                            borderColor: 'gray',
+                                            borderTopWidth: 1,
+                                            borderBottomWidth: 1,
+                                            paddingHorizontal: WIDTH * 0.02,
+                                            textAlign: 'center',
+                                            color: Theme.colorMain
+                                        }}
+                                        onChangeText={() => {}}
+                                        value={'1234'}
+                                    />
+                                    <View style={{
+                                        width: WIDTH * 0.08,
+                                        height: WIDTH * 0.08,
+                                        borderColor: 'gray',
+                                        borderWidth: 1,
+                                        alignItems: 'center',
+                                        justifyContent: 'center'
+                                    }}>
+                                        <Text style={{
+                                            fontSize: Theme.fontLarger,
+                                            color: 'gray'
+                                        }}>
+                                            +
+                                        </Text>
+                                    </View>
                                 </View>
                             </View>
+                            <TouchableOpacity
+                                style={{
+                                    flexDirection: 'row',
+                                    backgroundColor: Theme.colorMain,
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    paddingVertical: WIDTH * 0.05,
+                                    width: WIDTH * 0.9,
+                                    alignSelf: 'center',
+                                    borderRadius: WIDTH * 0.02,
+                                    marginTop: WIDTH * 0.1
+                                }}
+                                onPress={() => {Alert.alert('dat hang')}}
+                            >
+                                <FontAwesome5Icon name={'check'} color={'white'} size={20} style={{
+                                    marginRight: WIDTH * 0.03
+                                }}/>
+                                <Text style={{
+                                    color: 'white',
+                                    fontSize: Theme.fontLarge
+                                }}>
+                                    THÊM VÀO GIỎ HÀNG
+                                </Text>
+                            </TouchableOpacity>
                         </View>
-                        <TouchableOpacity
-                            style={{
-                                flexDirection: 'row',
-                                backgroundColor: Theme.colorMain,
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                paddingVertical: WIDTH * 0.05,
-                                width: WIDTH * 0.9,
-                                alignSelf: 'center',
-                                borderRadius: WIDTH * 0.02,
-                                marginTop: WIDTH * 0.1
-                            }}
-                            onPress={() => {Alert.alert('dat hang')}}
-                        >
-                            <FontAwesome5Icon name={'check'} color={'white'} size={20} style={{
-                                marginRight: WIDTH * 0.03
-                            }}/>
-                            <Text style={{
-                                color: 'white',
-                                fontSize: Theme.fontLarge
-                            }}>
-                                THÊM VÀO GIỎ HÀNG
-                            </Text>
-                        </TouchableOpacity>
                     </View>
-                </View>
-            </Modal>
+                </Modal>
 
-            {renderToast(is_toast)}
-        </SafeAreaView>
+                {renderToast(is_toast)}
+            </SafeAreaView>
+        </>
     );
 }
