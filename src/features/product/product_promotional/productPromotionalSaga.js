@@ -21,13 +21,12 @@ function* getListProductsPromotional() {
         yield put(productPromotionalActions.updateLoadingProductPromotional(true));
         const list_products = yield call(requestGetListProductsPromotional);
         yield put(productPromotionalActions.getListProductsPromotionalSuccess(list_products));
+        yield put(productPromotionalActions.updateLoadingProductPromotional(false));
     } catch (e) {
         console.error('Get list products promotional saga error', e);
-    } finally {
-        yield put(productPromotionalActions.updateLoadingProductPromotional(false));
     }
 }
 
 export function* watchGetListProductsPromotional() {
-    yield takeEvery(productPromotionalActions.types.TRIGGER_GET_PRODUCTS_PROMOTIONAL, getListProductsPromotional);
+    yield takeLatest(productPromotionalActions.types.TRIGGER_GET_PRODUCTS_PROMOTIONAL, getListProductsPromotional);
 }

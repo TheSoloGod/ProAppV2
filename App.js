@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text } from 'react-native';
+import {View, Text, LogBox} from 'react-native';
 import AppNavigator from './src/navigation/appNavigator';
 import { Provider } from 'react-redux';
 import { Root } from "native-base";
@@ -9,7 +9,7 @@ import { navigationRef } from './src/navigation/navigationService';
 
 const App = () => {
   useEffect(() => {
-
+      // LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
 
   return (

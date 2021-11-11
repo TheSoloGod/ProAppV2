@@ -21,14 +21,13 @@ function* getListBanner() {
         yield put(bannerActions.updateLoadingBanner(true));
         const list_banner = yield call(requestGetListBanner);
         yield put(bannerActions.setListBanner(list_banner));
+        yield put(bannerActions.updateLoadingBanner(false));
     } catch (e) {
         console.error('Get list banner saga error', e);
-    } finally {
-        yield put(bannerActions.updateLoadingBanner(false));
     }
 }
 
 export function* watchGetListBanner() {
-    yield takeEvery(bannerActions.types.GET_LIST_BANNER_TRIGGER, getListBanner);
+    yield takeLatest(bannerActions.types.GET_LIST_BANNER_TRIGGER, getListBanner);
 }
 

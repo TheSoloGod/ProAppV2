@@ -24,7 +24,7 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import {Card} from 'native-base';
-import {Divider} from 'react-native-elements';
+import {Divider, Image as EImage} from 'react-native-elements';
 import * as Theme from '../../../config/theme';
 import * as Helper from '../../../utils/helper';
 import {utilities, banners} from '../../../config/mock';
@@ -64,8 +64,6 @@ export default function HomeScreen() {
     const carouselRef = useRef();
 
     useEffect(() => {
-        LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-
         dispatch(categoryActions.triggerGetCategories());
         dispatch(bannerActions.triggerGetListBanner());
         dispatch(postPromotionalActions.triggerGetListPostPromotional());

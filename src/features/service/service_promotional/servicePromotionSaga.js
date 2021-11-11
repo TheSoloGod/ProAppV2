@@ -21,15 +21,14 @@ function* getListServicePromotion() {
         yield put(servicePromotionActions.updateLoadingServicePromotion(true));
         const list_service = yield call(requestGetListServicePromotion);
         yield put(servicePromotionActions.getListServicePromotionSuccess(list_service));
+        yield put(servicePromotionActions.updateLoadingServicePromotion(false));
     } catch (e) {
         console.error('Get list service promotion saga error', e);
-    } finally {
-        yield put(servicePromotionActions.updateLoadingServicePromotion(false));
     }
 }
 
 
 export function* watchGetListServicePromotion() {
-    yield takeEvery(servicePromotionActions.types.GET_LIST_SERVICE_PROMOTION_TRIGGER, getListServicePromotion)
+    yield takeLatest(servicePromotionActions.types.GET_LIST_SERVICE_PROMOTION_TRIGGER, getListServicePromotion)
 }
 

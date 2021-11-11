@@ -40,6 +40,12 @@ const productDetailReducer = (state = initState, action) => {
                 ...state,
                 products_reference: action.payload,
             };
+        case productDetailActions.types.CLEAR_PRODUCT_DETAIL:
+            console.info('clear product detail');
+            return {
+                ...state,
+                product: null,
+            }
         default:
             return state;
     }
