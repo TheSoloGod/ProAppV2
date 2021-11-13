@@ -3,7 +3,7 @@ import { View, Text, Clipboard, Linking, TouchableOpacity, Image, ScrollView, Sa
 import {gold, platinum, silver, standard, medalPlatinum, medalGold, medalSilver, medalStandard} from '../assets/ranks';
 
 export function formatCurrency(money) {
-    return money.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+    return money.toLocaleString('en-US', { style: 'currency', currency: 'VND' });
 }
 
 export function calculateDiscountPercent(price, compare_at_price) {

@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext, useRef} from 'react';
+import React, {useState, useEffect, useContext, useRef, useLayoutEffect} from 'react';
 import {View, Text, FlatList, TextInput, TouchableOpacity, Alert, Image, ScrollView, SafeAreaView, Platform} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import authActions from '../../../features/auth/authAction';
@@ -17,6 +17,8 @@ import QuickCartComponent from '../../../components/cart/quickCartComponent';
 import ProductCardComponent from '../../../components/card/productCardComponent';
 import productDetailActions from '../../../features/product/product_detail/productDetailAction';
 import LoadingComponent from '../../../components/loading/loadingComponent';
+import {navigationName} from '../../../navigation/navigationName';
+import {WIDTH} from '../../../utils/constant';
 
 export default function ProductDetailScreen() {
     const navigation = useNavigation();
@@ -28,10 +30,28 @@ export default function ProductDetailScreen() {
 
     const {product, products_reference, is_loading_product_detail} = useSelector(state => state.productDetailReducer);
     const [product_images, setProductImages] = useState([]);
-    const [productInfo, setProductInfo] = useState([]);
+    const [product_infos, setProductInfos] = useState([]);
     const [is_modal_visible, setModalVisible] = useState(false);
     const [is_toast, setIsToast] = useState(false);
     const [variant, setVariant] = useState();
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            title: '',
+            headerRight: () => (
+                <View style={{
+                    flexDirection: 'row',
+                }}>
+                    <TouchableOpacity onPress={() => { navigation.navigate(navigationName.storeStack.CART) }}>
+                        <IonIcon name={'cart-outline'} color={'white'} size={24} style={{ marginRight: WIDTH * 0.02 }} />
+                    </TouchableOpacity>
+                    {/*<TouchableOpacity onPress={() => {  }}>*/}
+                    {/*    <IonIcon name={'ellipsis-vertical-outline'} color={'white'} size={24} style={{ marginRight: WIDTH * 0.02 }} />*/}
+                    {/*</TouchableOpacity>*/}
+                </View>
+            ),
+        });
+    }, [navigation]);
 
     useEffect(() => {
         dispatch(productDetailActions.clearProductDetail());
@@ -48,7 +68,7 @@ export default function ProductDetailScreen() {
                 })
             });
             setProductImages(images);
-            setProductInfo([
+            setProductInfos([
                 {id: 1, key: 'Xuất xứ', value: product.origin},
                 {id: 2, key: 'Hạn sử dụng', value: product.expire_date},
                 {id: 3, key: 'Bảo hành', value: product.guarantee},
@@ -69,35 +89,17 @@ export default function ProductDetailScreen() {
         setIsToast(false);
     };
 
-    const renderProductInfo = ({item}) => {
+    const renderVariantImage = ({item}) => {
         return (
-            <View style={{
-                flexDirection: 'row',
-                borderTopWidth: 0.3,
-                // borderBottomWidth: 0.3,
-                borderColor: 'gray',
-            }}>
-                <View style={{
-                    width: WIDTH * 0.5,
-                    paddingLeft: WIDTH * 0.05,
-                    borderRightWidth: 0.3,
-                    borderColor: 'gray',
-                    paddingVertical: WIDTH * 0.02,
-                }}>
-                    <Text>
-                        {item.key}
-                    </Text>
-                </View>
-                <View style={{
-                    width: WIDTH * 0.5,
-                    paddingLeft: WIDTH * 0.05,
-                    paddingVertical: WIDTH * 0.02,
-                }}>
-                    <Text>
-                        {item.value}
-                    </Text>
-                </View>
-            </View>
+            <EImage
+                source={{uri: item.uri}}
+                style={{
+                    width: WIDTH * 0.2,
+                    height: WIDTH * 0.2,
+                    borderRadius: WIDTH * 0.05,
+                }}
+                resizeMode={'contain'}
+            />
         );
     };
 
@@ -196,26 +198,27 @@ export default function ProductDetailScreen() {
                                     marginTop: WIDTH * 0.02,
                                     alignItems: 'center'
                                 }}>
-                                    <Text style={{
-                                        color: 'gray',
-                                        fontSize: Theme.fontLarge + 2,
-                                        textDecorationLine: 'line-through'
-                                    }}>
-                                        {/*{Helper.formatCurrency(product.price)}*/}
-                                    </Text>
+                                    {/*<Text style={{*/}
+                                    {/*    color: 'gray',*/}
+                                    {/*    fontSize: Theme.fontLarge + 2,*/}
+                                    {/*    textDecorationLine: 'line-through'*/}
+                                    {/*}}>*/}
+                                    {/*    {Helper.formatCurrency(product.price)}*/}
+                                    {/*</Text>*/}
+                                    {/*<Text style={{*/}
+                                    {/*    color: Theme.colorMain,*/}
+                                    {/*    fontSize: Theme.fontLarge + 2,*/}
+                                    {/*    fontWeight: '600',*/}
+                                    {/*    paddingHorizontal: WIDTH * 0.02*/}
+                                    {/*}}>*/}
+                                    {/*    {Helper.formatCurrency(product.price)}*/}
+                                    {/*</Text>*/}
                                     <Text style={{
                                         color: Theme.colorMain,
-                                        fontSize: Theme.fontLarge + 2,
-                                        fontWeight: '600',
-                                        paddingHorizontal: WIDTH * 0.02
-                                    }}>
-                                        {/*{Helper.formatCurrency(product.price)}*/}
-                                    </Text>
-                                    <Text style={{
-                                        color: 'gray',
                                         fontWeight: '500',
+                                        fontSize: 16
                                     }}>
-                                        / 1 {product.unit}
+                                        {Helper.formatCurrency(product.price_range[0])} - {Helper.formatCurrency(product.price_range[1])} / 1 {product.unit}
                                     </Text>
                                 </View>
                             </View>
@@ -225,82 +228,159 @@ export default function ProductDetailScreen() {
                                 backgroundColor: 'rgba(255, 140, 0, 1)',
                                 position: 'absolute',
                                 alignSelf: 'flex-start',
-                                marginTop: WIDTH * 0.5
+                                marginTop: WIDTH * 0.5,
+                                borderTopRightRadius: WIDTH * 0.02,
+                                borderBottomRightRadius: WIDTH * 0.02,
                             }}>
                                 <Text style={{
                                     color: 'white'
                                 }}>
-                                    {/*{Helper.calculateDiscountPercent(product.price, product.compare_at_price)}*/}
-                                    -10%
+                                    {product.discount_percent} %
                                 </Text>
                             </View>
 
                             {/** yeu thich mua ngay */}
+                            {/*<View style={{*/}
+                            {/*    flexDirection: 'row',*/}
+                            {/*    justifyContent: 'space-around',*/}
+                            {/*    paddingHorizontal: WIDTH * 0.15,*/}
+                            {/*    marginTop: WIDTH * 0.05*/}
+                            {/*}}>*/}
+                            {/*    <View>*/}
+                            {/*        <Button*/}
+                            {/*            icon={*/}
+                            {/*                <IonIcon*/}
+                            {/*                    name={'heart-outline'}*/}
+                            {/*                    size={20}*/}
+                            {/*                    color={Theme.colorMain}*/}
+                            {/*                />*/}
+                            {/*            }*/}
+                            {/*            title={"Yêu thích"}*/}
+                            {/*            type={"outline"}*/}
+                            {/*            titleStyle={{*/}
+                            {/*                color: Theme.colorMain,*/}
+                            {/*                paddingLeft: WIDTH * 0.02*/}
+                            {/*            }}*/}
+                            {/*            buttonStyle={{*/}
+                            {/*                borderColor: Theme.colorMain,*/}
+                            {/*                padding: WIDTH * 0.023*/}
+                            {/*            }}*/}
+                            {/*            onPress={toastSuccess}*/}
+                            {/*        />*/}
+                            {/*    </View>*/}
+                            {/*    <View>*/}
+                            {/*        <Button*/}
+                            {/*            icon={*/}
+                            {/*                <IonIcon*/}
+                            {/*                    name="cart-outline"*/}
+                            {/*                    size={20}*/}
+                            {/*                    color="white"*/}
+                            {/*                />*/}
+                            {/*            }*/}
+                            {/*            title="Mua ngay"*/}
+                            {/*            titleStyle={{*/}
+                            {/*                color: 'white',*/}
+                            {/*                paddingLeft: WIDTH * 0.02*/}
+                            {/*            }}*/}
+                            {/*            buttonStyle={{*/}
+                            {/*                borderColor: Theme.colorMain,*/}
+                            {/*                backgroundColor: Theme.colorMain,*/}
+                            {/*                padding: WIDTH * 0.023*/}
+                            {/*            }}*/}
+                            {/*            onPress={toggleModal}*/}
+                            {/*        />*/}
+                            {/*    </View>*/}
+                            {/*</View>*/}
+
+                            {/** divider */}
                             <View style={{
-                                flexDirection: 'row',
-                                justifyContent: 'space-around',
-                                paddingHorizontal: WIDTH * 0.15,
-                                marginTop: WIDTH * 0.05
-                            }}>
-                                <View>
-                                    <Button
-                                        icon={
-                                            <IonIcon
-                                                name={'heart-outline'}
-                                                size={20}
-                                                color={Theme.colorMain}
-                                            />
-                                        }
-                                        title={"Yêu thích"}
-                                        type={"outline"}
-                                        titleStyle={{
-                                            color: Theme.colorMain,
-                                            paddingLeft: WIDTH * 0.02
-                                        }}
-                                        buttonStyle={{
-                                            borderColor: Theme.colorMain,
-                                            padding: WIDTH * 0.023
-                                        }}
-                                        onPress={toastSuccess}
-                                    />
+                                backgroundColor: '#f2f2f2',
+                                height: WIDTH * 0.02,
+                            }}/>
+
+                            {/** chon loai hang */}
+                            <View>
+                                <View style={{
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between',
+                                    paddingHorizontal: WIDTH * 0.03,
+                                }}>
+                                    <Text style={{
+                                        fontWeight: 'bold',
+                                    }}>
+                                        Chọn loại hàng
+                                    </Text>
+                                    <IonIcon name={'chevron-forward-outline'} color={'black'} size={20} />
                                 </View>
-                                <View>
-                                    <Button
-                                        icon={
-                                            <IonIcon
-                                                name="cart-outline"
-                                                size={20}
-                                                color="white"
-                                            />
-                                        }
-                                        title="Mua ngay"
-                                        titleStyle={{
-                                            color: 'white',
-                                            paddingLeft: WIDTH * 0.02
+                                <View style={{
+                                    paddingHorizontal: WIDTH * 0.03
+                                }}>
+                                    <FlatList
+                                        data={product_images}
+                                        renderItem={renderVariantImage}
+                                        horizontal
+                                        ItemSeparatorComponent={() => {
+                                            return (<View style={{width: WIDTH * 0.03}}/>);
                                         }}
-                                        buttonStyle={{
-                                            borderColor: Theme.colorMain,
-                                            backgroundColor: Theme.colorMain,
-                                            padding: WIDTH * 0.023
-                                        }}
-                                        onPress={toggleModal}
                                     />
                                 </View>
                             </View>
+
+                            {/** divider */}
+                            <View style={{
+                                backgroundColor: '#f2f2f2',
+                                height: WIDTH * 0.02,
+                            }}/>
 
                             {/** thong so */}
                             <View style={{
                                 marginVertical: WIDTH * 0.05
                             }}>
-                                <FlatList
-                                    data={productInfo}
-                                    renderItem={renderProductInfo}
-                                    keyExtractor={(item, index) => item.id.toString()}
-                                />
-                                <View style={{
-                                    borderBottomWidth: 0.4,
-                                    borderColor: 'gray'
-                                }}/>
+                                {
+                                    product_infos && product_infos.length > 0
+                                    ?
+                                        product_infos.map((info, index) => {
+                                            return (
+                                                <View
+                                                    style={{
+                                                        flexDirection: 'row',
+                                                        borderTopWidth: index === 0 ? 0.3 : 0,
+                                                        borderBottomWidth: 0.3,
+                                                        borderColor: 'gray',
+                                                    }}
+                                                    key={info.id}
+                                                >
+                                                    <View style={{
+                                                        width: WIDTH * 0.5,
+                                                        paddingLeft: WIDTH * 0.05,
+                                                        borderRightWidth: 0.3,
+                                                        borderColor: 'gray',
+                                                        paddingVertical: WIDTH * 0.02,
+                                                    }}>
+                                                        <Text>
+                                                            {info.key}
+                                                        </Text>
+                                                    </View>
+                                                    <View style={{
+                                                        width: WIDTH * 0.5,
+                                                        paddingLeft: WIDTH * 0.05,
+                                                        paddingVertical: WIDTH * 0.02,
+                                                    }}>
+                                                        <Text>
+                                                            {info.value}
+                                                        </Text>
+                                                    </View>
+                                                </View>
+                                            );
+                                        })
+                                        :
+                                        null
+                                }
+                                {/*<View style={{*/}
+                                {/*    borderBottomWidth: 0.4,*/}
+                                {/*    borderColor: 'gray'*/}
+                                {/*}}/>*/}
                             </View>
 
                             {/** mo ta */}
@@ -311,7 +391,7 @@ export default function ProductDetailScreen() {
                                 <Text style={{
                                     textAlign: 'justify'
                                 }}>
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                                    {product.description}
                                 </Text>
                             </View>
 
@@ -340,7 +420,55 @@ export default function ProductDetailScreen() {
                                 </View>
                             </View>
                         </ScrollView>
-                        <QuickCartComponent/>
+
+                        {/*<QuickCartComponent/>*/}
+                        <View style={{
+                            flexDirection: 'row',
+                            height: WIDTH * 0.1,
+                        }}>
+                            <View style={{
+                                width: WIDTH * 0.25,
+                                backgroundColor: Theme.colorSub,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}>
+                                <IonIcon name={'chatbubble-ellipses-outline'} color={'white'} size={20}/>
+                                <Text style={{
+                                    color: 'white',
+                                    fontSize: 10,
+                                }}>
+                                    Chat ngay
+                                </Text>
+                            </View>
+                            <View style={{
+                                width: WIDTH * 0.25,
+                                backgroundColor: Theme.colorSub,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}>
+                                <IonIcon name={'cart-outline'} color={'white'} size={20}/>
+                                <Text style={{
+                                    color: 'white',
+                                    fontSize: 10,
+                                }}>
+                                    Thêm vào giỏ hàng
+                                </Text>
+                            </View>
+                            <View style={{
+                                width: WIDTH * 0.5,
+                                backgroundColor: Theme.colorMain,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                            }}>
+                                <Text style={{
+                                    color: 'white',
+                                    fontSize: 20,
+                                }}>
+                                    Mua ngay
+                                </Text>
+                            </View>
+                        </View>
+
                         <Modal
                             isVisible={is_modal_visible}
                             animationIn={"slideInUp"}

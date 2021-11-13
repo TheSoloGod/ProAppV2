@@ -13,6 +13,7 @@ import {
     Button,
     ImageBackground,
     LogBox,
+    SectionList,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import authActions from '../../../features/auth/authAction';
@@ -70,46 +71,6 @@ export default function HomeScreen() {
         dispatch(productPromotionalActions.triggerGetProductsPromotional());
         dispatch(servicePromotionActions.getListServicePromotionTrigger());
     }, []);
-
-    const renderUtilitiesItem = ({item}) => {
-        return (
-            <TouchableOpacity
-                style={{
-                    width: (WIDTH - 0.04 * WIDTH) / 4 ,
-                    alignItems: 'center'
-                }}
-                onPress={() => {item.navigation()}}
-                // onPress={() => {navigation.navigate('StoreStack', {
-                //     screen: 'StoreTopTab',
-                //     params: {screen: 'Rau củ'}
-                // })}}
-            >
-                <View style={{
-                    width: WIDTH * 0.15,
-                    height: WIDTH * 0.15,
-                    borderRadius: WIDTH * 0.05,
-                    backgroundColor: Theme.colorSub ? Theme.colorSub : Theme.makeColorMainOpacity(0.5),
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                }}>
-                    <Image
-                        source={item.icon}
-                        style={{
-                            width: WIDTH * 0.1,
-                            height: WIDTH * 0.1,
-                        }}
-                    />
-                </View>
-                <Text style={{
-                    width: (WIDTH - 0.05 * WIDTH) / 4 ,
-                    marginTop: WIDTH * 0.02,
-                    textAlign: 'center',
-                }} numberOfLines={2}>
-                    {item.name}
-                </Text>
-            </TouchableOpacity>
-        );
-    };
 
     const renderBannerCarousel = ({item}) => {
         return (
@@ -233,20 +194,57 @@ export default function HomeScreen() {
                         {/** utilities */}
                         <View style={{
                             paddingHorizontal: WIDTH * 0.02,
-                            paddingVertical: WIDTH * 0.05,
+                            paddingVertical: WIDTH * 0.02,
+                            flexDirection: 'row',
+                            flexWrap: 'wrap',
                         }}>
-                            <FlatList
-                                data={utilities}
-                                renderItem={renderUtilitiesItem}
-                                // horizontal={true}
-                                keyExtractor={(item, index) => item.id.toString()}
-                                numColumns={4}
-                                ItemSeparatorComponent={() => {
-                                    return (
-                                        <View style={{marginVertical: WIDTH * 0.02}}/>
-                                    );
-                                }}
-                            />
+                            {
+                                utilities && utilities.length > 0
+                                ?
+                                    utilities.map(utility => {
+                                        return (
+                                            <TouchableOpacity
+                                                style={{
+                                                    width: (WIDTH - 0.04 * WIDTH) / 4 ,
+                                                    alignItems: 'center',
+                                                    marginTop: WIDTH * 0.05,
+                                                }}
+                                                onPress={() => {utility.navigation()}}
+                                                // onPress={() => {navigation.navigate('StoreStack', {
+                                                //     screen: 'StoreTopTab',
+                                                //     params: {screen: 'Rau củ'}
+                                                // })}}
+                                                key={utility.id}
+                                            >
+                                                <View style={{
+                                                    width: WIDTH * 0.15,
+                                                    height: WIDTH * 0.15,
+                                                    borderRadius: WIDTH * 0.05,
+                                                    backgroundColor: Theme.colorSub ? Theme.colorSub : Theme.makeColorMainOpacity(0.5),
+                                                    alignItems: 'center',
+                                                    justifyContent: 'center'
+                                                }}>
+                                                    <Image
+                                                        source={utility.icon}
+                                                        style={{
+                                                            width: WIDTH * 0.1,
+                                                            height: WIDTH * 0.1,
+                                                        }}
+                                                    />
+                                                </View>
+                                                <Text style={{
+                                                    width: (WIDTH - 0.05 * WIDTH) / 4 ,
+                                                    marginTop: WIDTH * 0.02,
+                                                    textAlign: 'center',
+                                                }} numberOfLines={2}>
+                                                    {utility.name}
+                                                </Text>
+                                            </TouchableOpacity>
+                                        );
+                                    })
+                                    :
+                                    null
+                            }
                         </View>
                         {/** end utilities */}
 

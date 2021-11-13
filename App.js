@@ -9,7 +9,7 @@ import { navigationRef } from './src/navigation/navigationService';
 
 const App = () => {
   useEffect(() => {
-      // LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+      LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
 
   return (
