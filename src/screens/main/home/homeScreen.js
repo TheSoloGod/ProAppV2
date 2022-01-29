@@ -48,6 +48,7 @@ import LoadingBannerComponent from '../../../components/loading/home/loadingBann
 import LoadingPostPromotionComponent from '../../../components/loading/home/loadingPostPromotionComponent';
 import LoadingProductPromotionComponent from '../../../components/loading/home/loadingProductPromotionComponent';
 import LinearGradient from 'react-native-linear-gradient';
+import collectionActions from '../../../features/collection/collectionAction';
 
 export default function HomeScreen() {
     const navigation = useNavigation();
@@ -65,7 +66,7 @@ export default function HomeScreen() {
     const carouselRef = useRef();
 
     useEffect(() => {
-        dispatch(categoryActions.triggerGetCategories());
+        dispatch(collectionActions.triggerGetCollections());
         dispatch(bannerActions.triggerGetListBanner());
         dispatch(postPromotionalActions.triggerGetListPostPromotional());
         dispatch(productPromotionalActions.triggerGetProductsPromotional());
@@ -74,17 +75,21 @@ export default function HomeScreen() {
 
     const renderBannerCarousel = ({item}) => {
         return (
-            <View>
+            <Card style={{
+                width: WIDTH * 0.9,
+                marginLeft: WIDTH * 0.05,
+                borderRadius: WIDTH * 0.02,
+            }}>
                 <Image
                     source={{uri: item.image}}
                     style={{
                         width: WIDTH * 0.9,
                         height: WIDTH * 0.5,
                         borderRadius: WIDTH * 0.02,
-                        alignSelf: 'center'
+                        alignSelf: 'center',
                     }}
                 />
-            </View>
+            </Card>
         )
     };
 

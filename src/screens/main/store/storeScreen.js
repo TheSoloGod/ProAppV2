@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext, useRef} from 'react';
-import {View, Text, FlatList, TextInput, TouchableOpacity, Alert, Image, ScrollView, SafeAreaView, Platform, Button} from 'react-native';
+import {View, Text, FlatList, TextInput, TouchableOpacity, Alert, Image, ScrollView, Platform, Button} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import authActions from '../../../features/auth/authAction';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -19,6 +19,9 @@ import {navigationName} from '../../../navigation/navigationName';
 import StoreTopTab from './storeTopTab';
 import ListProductScreen from './listProductScreen';
 import FabCartComponent from '../../../components/cart/fabCartComponent';
+import LoadingComponent from '../../../components/loading/loadingComponent';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 
 export default function StoreScreen() {
     const {WIDTH, HEIGHT} = AppConst;
@@ -26,22 +29,55 @@ export default function StoreScreen() {
     const route = useRoute();
     const dispatch = useDispatch();
     const {categories} = useSelector(state => state.categoryReducer);
+    const {collections} = useSelector(state => state.collectionReducer);
+
+    const renderCollection = ({item}) => {
+        return (
+            <View style={{
+                width: WIDTH * 0.25,
+                height: WIDTH * 0.25 * 3,
+                backgroundColor: 'green',
+                borderBottomColor: 'grey',
+                borderBottomWidth: 1,
+            }}>
+                <IonIcon name={'bug-outline'} size={14}/>
+            </View>
+        );
+    }
 
     return (
         <SafeAreaView style={{
             flex: 1,
-            backgroundColor: Theme.colorBackground
-        }}>
-            {
-                categories && categories.length
-                    ?
-                    <StoreTopTab/>
-                    :
-                    <View/>
-            }
-
+            // backgroundColor: Theme.colorBackground
+        }} edges={['bottom']}>
+            {/*{*/}
+            {/*    categories && categories.length*/}
+            {/*        ?*/}
+            {/*        <StoreTopTab/>*/}
+            {/*        :*/}
+            {/*        <View/>*/}
+            {/*}*/}
             {/*<QuickCartComponent/>*/}
-            <FabCartComponent/>
+            <View style={{
+                flexDirection: 'row',
+            }}>
+                <View style={{
+                    width: WIDTH * 0.25,
+                }}>
+                    <FlatList
+                        data={collections}
+                        renderItem={renderCollection}
+                    />
+                </View>
+                <View style={{
+                    width: WIDTH * 0.75,
+                }}>
+                    <Text>
+                        content
+                    </Text>
+                </View>
+            </View>
+            {/*<FabCartComponent/>*/}
         </SafeAreaView>
     );
 }

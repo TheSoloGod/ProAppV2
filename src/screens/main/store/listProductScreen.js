@@ -15,17 +15,19 @@ import Modal from 'react-native-modal';
 import ProductCardComponent from '../../../components/card/productCardComponent';
 import categoryActions from '../../../features/category/categoryAction';
 import {navigationName} from '../../../navigation/navigationName';
+import LoadingComponent from '../../../components/loading/loadingComponent';
+import {WaveIndicator} from 'react-native-indicators';
 
 export default function ListProductScreen() {
     const {WIDTH, HEIGHT} = AppConst;
     const navigation = useNavigation();
     const route = useRoute();
     const dispatch = useDispatch();
-    const {products, current_page, load_more} = useSelector(state => state.categoryReducer.categories[route.params.category.index]);
+    const {products, current_page, load_more, is_loading} = useSelector(state => state.categoryReducer.categories[route.params.category.index]);
     const {categories} = useSelector(state => state.categoryReducer);
 
     useEffect(() => {
-        dispatch(categoryActions.loadProductsInCategoryTrigger({category: route.params.category, page: 1}));
+        // dispatch(categoryActions.loadProductsInCategoryTrigger({category: route.params.category, page: 1}));
     }, []);
 
     // useEffect(() => {
@@ -36,28 +38,38 @@ export default function ListProductScreen() {
 
     return (
         <>
-
-        <SafeAreaView style={{
-            flex: 1,
-            backgroundColor: Theme.colorBackground
-        }}>
-            <FlatList
-                data={products}
-                renderItem={({item}) => {return (<ProductCardComponent item={item}/>)}}
-                keyExtractor={(item, index) => item.id.toString()}
-                numColumns={2}
-                style={{
-                    alignSelf: 'center'
-                }}
-                extraData={products}
-                onEndReachedThreshold={2}
-                onEndReached={() => {
-                    if (load_more) {
-                        dispatch(categoryActions.loadProductsInCategoryTrigger({category: route.params.category, page: current_page}));
-                    }
-                }}
-            />
-        </SafeAreaView>
+            <SafeAreaView style={{
+                flex: 1,
+                backgroundColor: Theme.colorBackground
+            }}>
+                {
+                    is_loading
+                    ?
+                        <WaveIndicator
+                            color={Theme.colorMain}
+                            size={WIDTH * 0.3}
+                            count={3}
+                            waveFactor={0.5}
+                        />
+                        :
+                        <FlatList
+                            data={products}
+                            renderItem={({item}) => {return (<ProductCardComponent item={item}/>)}}
+                            keyExtractor={(item, index) => item.id.toString()}
+                            numColumns={2}
+                            style={{
+                                alignSelf: 'center'
+                            }}
+                            extraData={products}
+                            onEndReachedThreshold={2}
+                            onEndReached={() => {
+                                if (load_more) {
+                                    dispatch(categoryActions.loadProductsInCategoryTrigger({category: route.params.category, page: current_page}));
+                                }
+                            }}
+                        />
+                }
+            </SafeAreaView>
         </>
     );
 }

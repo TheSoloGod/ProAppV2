@@ -21,6 +21,7 @@ import notificationReducer from '../features/notification/notificationReducer';
 import transactionReducer from '../features/transaction/transactionReducer';
 import serviceDetailReducer from '../features/service/service_detail/serviceDetailReducer';
 import servicePromotionReducer from '../features/service/service_promotional/servicePromotionReducer';
+import collectionReducer from '../features/collection/collectionReducer';
 
 const rootReducers = combineReducers(
     {
@@ -46,6 +47,7 @@ const rootReducers = combineReducers(
         transactionReducer,
         serviceDetailReducer,
         servicePromotionReducer,
+        collectionReducer,
     }
 );
 

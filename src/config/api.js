@@ -1,4 +1,4 @@
-const URL = 'https://699f-118-71-192-245.ngrok.io/api';
+const URL = 'https://a3d6-42-118-49-112.ngrok.io/api';
 
 /** api auth */
 export const POST_LOGIN = `${URL}/auth/login`;
@@ -91,3 +91,6 @@ export const UPDATE_ADDRESS = `${URL}/addresses`;
 export const DELETE_ADDRESS = (address_id) => {
     return `${URL}/addresses/${address_id}`;
 };
+
+/** api collection */
+export const GET_COLLECTIONS = `${URL}/collections`;

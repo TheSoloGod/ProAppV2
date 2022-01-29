@@ -20,7 +20,7 @@ function* getListProducts() {
     try {
         yield put(productActions.updateLoadingProduct(true));
         const list_products = yield call(requestGetListProducts);
-        yield put(productActions.getListNewsSuccess(list_products));
+        yield put(productActions.getListProductsSuccess(list_products));
     } catch (e) {
         console.error('Get list products saga error', e);
     } finally {

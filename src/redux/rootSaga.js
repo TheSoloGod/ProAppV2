@@ -22,6 +22,7 @@ import { watchGetListNotification } from '../features/notification/notificationS
 import { watchGetUserTransaction } from '../features/transaction/transactionSaga';
 import { watchGetListServiceDetail } from '../features/service/service_detail/serviceDetailSaga';
 import { watchGetListServicePromotion } from '../features/service/service_promotional/servicePromotionSaga';
+import { watchGetCollections } from '../features/collection/collectionSaga';
 
 const sagas = function* () {
     yield all([
@@ -60,6 +61,7 @@ const sagas = function* () {
         watchGetReferrer(),
         watchGetListServicePromotion(),
         watchGetListServiceDetail(),
+        watchGetCollections(),
     ]);
 };
 

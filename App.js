@@ -6,6 +6,7 @@ import { Root } from "native-base";
 import store from './src/redux/store';
 import { NavigationContainer } from '@react-navigation/native';
 import { navigationRef } from './src/navigation/navigationService';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 const App = () => {
   useEffect(() => {
@@ -13,13 +14,15 @@ const App = () => {
   }, []);
 
   return (
-      <Root>
-        <Provider store={store}>
-          <NavigationContainer ref={navigationRef}>
-            <AppNavigator />
-          </NavigationContainer>
-        </Provider>
-      </Root>
+      <SafeAreaProvider>
+          <Root>
+            <Provider store={store}>
+              <NavigationContainer ref={navigationRef}>
+                <AppNavigator />
+              </NavigationContainer>
+            </Provider>
+          </Root>
+      </SafeAreaProvider>
   );
 };
 

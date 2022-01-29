@@ -1013,26 +1013,26 @@ const TabBottomScreen = () => {
                     ),
                 }}
             />
-            {/*<TabBottom.Screen*/}
-            {/*    name={navigationName.newsStack.NEWS_STACK}*/}
-            {/*    component={NewsStackScreen}*/}
-            {/*    options={{*/}
-            {/*        tabBarLabel: 'Tin tức',*/}
-            {/*        tabBarIcon: ({ focused, color, size }) => (*/}
-            {/*            <IonIcon name={'reader-outline'} size={size} color={color} />*/}
-            {/*        ),*/}
-            {/*    }}*/}
-            {/*/>*/}
             <TabBottom.Screen
-                name={navigationName.prerogativeStack.PREROGATIVE_STACK}
-                component={PrerogativeStackScreen}
+                name={navigationName.newsStack.NEWS_STACK}
+                component={NewsStackScreen}
                 options={{
-                    tabBarLabel: 'Đặc quyền',
+                    tabBarLabel: 'Tin tức',
                     tabBarIcon: ({ focused, color, size }) => (
-                        <IonIcon name={focused ? 'trophy' : 'trophy-outline'} size={size} color={color} />
+                        <IonIcon name={focused ? 'reader' : 'reader-outline'} size={size} color={color} />
                     ),
                 }}
             />
+            {/*<TabBottom.Screen*/}
+            {/*    name={navigationName.prerogativeStack.PREROGATIVE_STACK}*/}
+            {/*    component={PrerogativeStackScreen}*/}
+            {/*    options={{*/}
+            {/*        tabBarLabel: 'Đặc quyền',*/}
+            {/*        tabBarIcon: ({ focused, color, size }) => (*/}
+            {/*            <IonIcon name={focused ? 'trophy' : 'trophy-outline'} size={size} color={color} />*/}
+            {/*        ),*/}
+            {/*    }}*/}
+            {/*/>*/}
             <TabBottom.Screen
                 name={navigationName.mainStack.BARCODE_STACK}
                 component={BarcodeStackScreen}
@@ -1057,7 +1057,7 @@ const TabBottomScreen = () => {
                             />
                         </View>
                         */
-                        <IonIcon name={'qr-code-outline'} size={size} color={color} />
+                        <IonIcon name={focused ? 'qr-code' : 'qr-code-outline'} size={size} color={color} />
                     ),
                 }}
             />

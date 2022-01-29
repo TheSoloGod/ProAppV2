@@ -35,27 +35,26 @@ export default function ProductDetailScreen() {
     const [is_toast, setIsToast] = useState(false);
     const [variant, setVariant] = useState();
 
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            title: '',
-            headerRight: () => (
-                <View style={{
-                    flexDirection: 'row',
-                }}>
-                    <TouchableOpacity onPress={() => { navigation.navigate(navigationName.storeStack.CART) }}>
-                        <IonIcon name={'cart-outline'} color={'white'} size={24} style={{ marginRight: WIDTH * 0.02 }} />
-                    </TouchableOpacity>
-                    {/*<TouchableOpacity onPress={() => {  }}>*/}
-                    {/*    <IonIcon name={'ellipsis-vertical-outline'} color={'white'} size={24} style={{ marginRight: WIDTH * 0.02 }} />*/}
-                    {/*</TouchableOpacity>*/}
-                </View>
-            ),
-        });
-    }, [navigation]);
+    // useLayoutEffect(() => {
+    //     navigation.setOptions({
+    //         title: '',
+    //         headerRight: () => (
+    //             <View style={{
+    //                 flexDirection: 'row',
+    //             }}>
+    //                 <TouchableOpacity onPress={() => { navigation.navigate(navigationName.storeStack.CART) }}>
+    //                     <IonIcon name={'cart-outline'} color={'white'} size={24} style={{ marginRight: WIDTH * 0.02 }} />
+    //                 </TouchableOpacity>
+    //                 {/*<TouchableOpacity onPress={() => {  }}>*/}
+    //                 {/*    <IonIcon name={'ellipsis-vertical-outline'} color={'white'} size={24} style={{ marginRight: WIDTH * 0.02 }} />*/}
+    //                 {/*</TouchableOpacity>*/}
+    //             </View>
+    //         ),
+    //     });
+    // }, [navigation]);
 
     useEffect(() => {
         dispatch(productDetailActions.clearProductDetail());
-        console.log(route.params);
         dispatch(productDetailActions.getProductDetailTrigger(route.params.product.id));
     }, []);
 
@@ -94,11 +93,12 @@ export default function ProductDetailScreen() {
             <EImage
                 source={{uri: item.uri}}
                 style={{
-                    width: WIDTH * 0.2,
-                    height: WIDTH * 0.2,
-                    borderRadius: WIDTH * 0.05,
+                    width: WIDTH * 0.15,
+                    height: WIDTH * 0.15,
+                    borderRadius: WIDTH * 0.01,
+                    marginVertical: WIDTH * 0.02
                 }}
-                resizeMode={'contain'}
+                // resizeMode={'contain'}
             />
         );
     };
@@ -163,7 +163,9 @@ export default function ProductDetailScreen() {
             {
                 product
                 ?
-                    <SafeAreaView style={{flex: 1}}>
+                    <SafeAreaView style={{
+                        flex: 1
+                    }}>
                         <ScrollView ref={scrollRef}>
                             <Carousel
                                 layout={"default"}
@@ -305,9 +307,11 @@ export default function ProductDetailScreen() {
                                     alignItems: 'center',
                                     justifyContent: 'space-between',
                                     paddingHorizontal: WIDTH * 0.03,
+                                    paddingVertical: WIDTH * 0.02
                                 }}>
                                     <Text style={{
                                         fontWeight: 'bold',
+                                        fontSize: 16
                                     }}>
                                         Chọn loại hàng
                                     </Text>
@@ -386,7 +390,8 @@ export default function ProductDetailScreen() {
                             {/** mo ta */}
                             <View style={{
                                 width: WIDTH * 0.94,
-                                alignSelf: 'center'
+                                alignSelf: 'center',
+                                height: 200,
                             }}>
                                 <Text style={{
                                     textAlign: 'justify'
@@ -424,7 +429,7 @@ export default function ProductDetailScreen() {
                         {/*<QuickCartComponent/>*/}
                         <View style={{
                             flexDirection: 'row',
-                            height: WIDTH * 0.1,
+                            // height: WIDTH * 0.1,
                         }}>
                             <View style={{
                                 width: WIDTH * 0.25,

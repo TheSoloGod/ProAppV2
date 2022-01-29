@@ -24,6 +24,7 @@ const categoryReducer = (state = initState, action) => {
             let category = params.category;
             categories_clone = [...state.categories];
             categories_clone[category.index].current_page = params.page;
+            categories_clone[category.index].is_loading = true;
             return {
                 ...state,
                 categories: categories_clone,
@@ -40,6 +41,7 @@ const categoryReducer = (state = initState, action) => {
             }
             categories_clone[index].load_more = params.products.length > 0;
             categories_clone[index].current_page = params.products.length > 0 ? state.categories[index].current_page + 1 : state.categories[index].current_page;
+            categories_clone[index].is_loading = false;
             return {
                 ...state,
                 categories: categories_clone,
