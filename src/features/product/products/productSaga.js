@@ -5,26 +5,26 @@ import * as RootNavigation from '../../../navigation/navigationService';
 import axios from 'axios';
 import * as API from '../../../config/api';
 
-function requestGetListProducts() {
-    return axios.get(API.GET_LIST_PRODUCTS)
+function requestGetListProducts(category_id, page) {
+    return axios.get(API.GET_PRODUCTS_IN_CATEGORY(category_id, page))
         .then(res => {
-            return res.data;
+            return res.data.data;
         })
         .catch(e => {
-            console.error('Get list products api error', + e);
+            console.error('Get list products api error', e);
             throw e;
         })
 }
 
-function* getListProducts() {
+function* getListProducts({payload: params}) {
     try {
-        yield put(productActions.updateLoadingProduct(true));
-        const list_products = yield call(requestGetListProducts);
+        if (params.page === 1) yield put(productActions.updateLoadingProduct(true));
+        const list_products = yield call(requestGetListProducts, params.category_id, params.page);
         yield put(productActions.getListProductsSuccess(list_products));
     } catch (e) {
         console.error('Get list products saga error', e);
     } finally {
-        yield put(productActions.updateLoadingProduct(false));
+        if (params.page === 1) yield put(productActions.updateLoadingProduct(false));
     }
 }
 

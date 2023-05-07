@@ -6,6 +6,7 @@ import {Card, Fab} from 'native-base';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {WIDTH} from '../../utils/constant';
+import {actualSize} from '../../utils/helper';
 
 export default function FabCartComponent(props) {
     const navigation = useNavigation();
@@ -29,6 +30,7 @@ export default function FabCartComponent(props) {
                     top: -25,
                     right: -25,
                     borderColor: 'white',
+                    borderWidth: actualSize(20),
                     paddingHorizontal: 3,
                     paddingVertical: 2
                 }}>

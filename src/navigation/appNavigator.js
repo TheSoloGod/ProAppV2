@@ -57,6 +57,7 @@ import * as Helper from '../../src/utils/helper';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import { useSelector, useDispatch } from 'react-redux';
 import {WIDTH} from '../utils/constant';
+import ListProductScreen from '../screens/main/store/listProductScreen';
 
 /** navigation xác thực */
 const AuthStack = createStackNavigator();
@@ -332,10 +333,25 @@ const StoreStackScreen = () => {
                 })}
             />
             <StoreStack.Screen
+                name={navigationName.storeStack.LIST_PRODUCT}
+                component={ListProductScreen}
+                options={{
+                    title: 'Danh sách sản phẩm',
+                    headerBackTitle: "Trở về",
+                    headerStyle: {
+                        backgroundColor: Theme.colorMain,
+                    },
+                    headerTintColor: 'white',
+                    cardStyle: {
+                        backgroundColor: Theme.colorBackground,
+                    },
+                }}
+            />
+            <StoreStack.Screen
                 name={navigationName.storeStack.PRODUCT_DETAIL}
                 component={ProductDetailScreen}
                 options={{
-                    title: ' Chi tiết sản phẩm',
+                    title: 'Chi tiết sản phẩm',
                     headerBackTitle: "Trở về",
                     headerStyle: {
                         backgroundColor: Theme.colorMain,

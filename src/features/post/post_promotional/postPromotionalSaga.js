@@ -21,9 +21,10 @@ function* getListPosts() {
         yield put(postPromotionalActions.updateLoadingPostPromotional(true));
         const list_posts = yield call(requestGetListPosts);
         yield put(postPromotionalActions.getListPostPromotionalSuccess(list_posts));
-        yield put(postPromotionalActions.updateLoadingPostPromotional(false));
     } catch (e) {
         console.error('Get list posts promotional saga error', e);
+    } finally {
+        yield put(postPromotionalActions.updateLoadingPostPromotional(false));
     }
 }
 

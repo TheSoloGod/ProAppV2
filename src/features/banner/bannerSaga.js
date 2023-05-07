@@ -6,6 +6,8 @@ import axios from 'axios';
 import * as API from '../../config/api';
 
 function requestGetListBanner() {
+    console.log('kien test');
+    console.log(API.GET_LIST_BANNERS);
     return axios.get(API.GET_LIST_BANNERS)
         .then(res => {
             return res.data.data;
@@ -20,10 +22,11 @@ function* getListBanner() {
     try {
         yield put(bannerActions.updateLoadingBanner(true));
         const list_banner = yield call(requestGetListBanner);
-        yield put(bannerActions.setListBanner(list_banner));
-        yield put(bannerActions.updateLoadingBanner(false));
+        yield put(bannerActions.getListBannerSuccess(list_banner));
     } catch (e) {
         console.error('Get list banner saga error', e);
+    } finally {
+        yield put(bannerActions.updateLoadingBanner(false));
     }
 }
 

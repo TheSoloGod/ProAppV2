@@ -1,7 +1,7 @@
 import bannerActions from './bannerAction';
 
 const initState = {
-    list_banner: [],
+    list_banners: [],
     is_loading: false
 };
 
@@ -10,11 +10,11 @@ const bannerReducer = (state = initState, action) => {
         case bannerActions.types.GET_LIST_BANNER_TRIGGER:
             console.info('get banner trigger');
             return state;
-        case bannerActions.types.SET_LIST_BANNER:
+        case bannerActions.types.GET_LIST_BANNER_SUCCESS:
             console.info('set banner');
             return {
                 ...state,
-                list_banner: action.payload,
+                list_banners: action.payload,
             };
         case bannerActions.types.UPDATE_LOADING_BANNER:
             console.info('update loading banner', action.payload);

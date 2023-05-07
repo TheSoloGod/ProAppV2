@@ -21,9 +21,10 @@ function* getListProductsPromotional() {
         yield put(productPromotionalActions.updateLoadingProductPromotional(true));
         const list_products = yield call(requestGetListProductsPromotional);
         yield put(productPromotionalActions.getListProductsPromotionalSuccess(list_products));
-        yield put(productPromotionalActions.updateLoadingProductPromotional(false));
     } catch (e) {
         console.error('Get list products promotional saga error', e);
+    } finally {
+        yield put(productPromotionalActions.updateLoadingProductPromotional(false));
     }
 }
 

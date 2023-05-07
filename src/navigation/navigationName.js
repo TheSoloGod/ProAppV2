@@ -82,6 +82,7 @@ export const navigationName = {
         CART: 'Cart',
         CHECK_OUT: 'Checkout',
         PAYMENT: 'Payment',
+        LIST_PRODUCT: 'ListProduct',
     },
 
     /** BarcodeStack */

@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext, useRef, useLayoutEffect} from 'react';
-import {View, Text, FlatList, TextInput, TouchableOpacity, Alert, Image, ScrollView, SafeAreaView, Platform} from 'react-native';
+import {View, Text, FlatList, TextInput, TouchableOpacity, Alert, Image, ScrollView, Platform} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import authActions from '../../../features/auth/authAction';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -19,6 +19,9 @@ import productDetailActions from '../../../features/product/product_detail/produ
 import LoadingComponent from '../../../components/loading/loadingComponent';
 import {navigationName} from '../../../navigation/navigationName';
 import {WIDTH} from '../../../utils/constant';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {actualSize} from '../../../utils/helper';
+import FabCartComponent from '../../../components/cart/fabCartComponent';
 
 export default function ProductDetailScreen() {
     const navigation = useNavigation();
@@ -163,9 +166,12 @@ export default function ProductDetailScreen() {
             {
                 product
                 ?
-                    <SafeAreaView style={{
-                        flex: 1
-                    }}>
+                    <SafeAreaView
+                        style={{
+                            flex: 1
+                        }}
+                        edges={['bottom']}
+                    >
                         <ScrollView ref={scrollRef}>
                             <Carousel
                                 layout={"default"}
@@ -215,13 +221,13 @@ export default function ProductDetailScreen() {
                                     {/*}}>*/}
                                     {/*    {Helper.formatCurrency(product.price)}*/}
                                     {/*</Text>*/}
-                                    <Text style={{
-                                        color: Theme.colorMain,
-                                        fontWeight: '500',
-                                        fontSize: 16
-                                    }}>
-                                        {Helper.formatCurrency(product.price_range[0])} - {Helper.formatCurrency(product.price_range[1])} / 1 {product.unit}
-                                    </Text>
+                                    {/*<Text style={{*/}
+                                    {/*    color: Theme.colorMain,*/}
+                                    {/*    fontWeight: '500',*/}
+                                    {/*    fontSize: 16*/}
+                                    {/*}}>*/}
+                                    {/*    {Helper.formatCurrency(product.price_range[0])} - {Helper.formatCurrency(product.price_range[1])} / 1 {product.unit}*/}
+                                    {/*</Text>*/}
                                 </View>
                             </View>
                             <View style={{
@@ -427,52 +433,7 @@ export default function ProductDetailScreen() {
                         </ScrollView>
 
                         {/*<QuickCartComponent/>*/}
-                        <View style={{
-                            flexDirection: 'row',
-                            // height: WIDTH * 0.1,
-                        }}>
-                            <View style={{
-                                width: WIDTH * 0.25,
-                                backgroundColor: Theme.colorSub,
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                            }}>
-                                <IonIcon name={'chatbubble-ellipses-outline'} color={'white'} size={20}/>
-                                <Text style={{
-                                    color: 'white',
-                                    fontSize: 10,
-                                }}>
-                                    Chat ngay
-                                </Text>
-                            </View>
-                            <View style={{
-                                width: WIDTH * 0.25,
-                                backgroundColor: Theme.colorSub,
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                            }}>
-                                <IonIcon name={'cart-outline'} color={'white'} size={20}/>
-                                <Text style={{
-                                    color: 'white',
-                                    fontSize: 10,
-                                }}>
-                                    Thêm vào giỏ hàng
-                                </Text>
-                            </View>
-                            <View style={{
-                                width: WIDTH * 0.5,
-                                backgroundColor: Theme.colorMain,
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                            }}>
-                                <Text style={{
-                                    color: 'white',
-                                    fontSize: 20,
-                                }}>
-                                    Mua ngay
-                                </Text>
-                            </View>
-                        </View>
+                        <FabCartComponent/>
 
                         <Modal
                             isVisible={is_modal_visible}

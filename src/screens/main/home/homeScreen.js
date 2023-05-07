@@ -53,13 +53,13 @@ import collectionActions from '../../../features/collection/collectionAction';
 export default function HomeScreen() {
     const navigation = useNavigation();
     const {token} = useSelector(state => state.authReducer);
-    const list_banners = useSelector(state => state.bannerReducer.list_banner);
+    const {list_banners} = useSelector(state => state.bannerReducer);
     const is_loading_banners = useSelector(state => state.bannerReducer.is_loading);
     const list_posts_promotional = useSelector(state => state.postPromotionalReducer.list_posts);
     const is_loading_post_promotion = useSelector(state => state.postPromotionalReducer.is_loading);
-    const list_products_promotional = useSelector(state => state.productPromotionalReducer.list_products_promotional);
+    const {list_products_promotional} = useSelector(state => state.productPromotionalReducer);
     const is_loading_product_promotion = useSelector(state => state.productPromotionalReducer.is_loading);
-    const list_services_promotional = useSelector(state => state.servicePromotionReducer.list_services_promotional);
+    const {list_services_promotional} = useSelector(state => state.servicePromotionReducer);
     const is_loading_service_promotion = useSelector(state => state.servicePromotionReducer.is_loading);
     const dispatch = useDispatch();
     const {WIDTH, HEIGHT} = AppConst;
@@ -330,6 +330,7 @@ export default function HomeScreen() {
                                             style={{
                                                 paddingVertical: WIDTH * 0.02
                                             }}
+                                            showsHorizontalScrollIndicator={false}
                                         />
                                 }
                             </View>
@@ -385,6 +386,7 @@ export default function HomeScreen() {
                                             style={{
                                                 paddingVertical: WIDTH * 0.02
                                             }}
+                                            showsHorizontalScrollIndicator={false}
                                         />
                                 }
                             </View>
@@ -445,6 +447,7 @@ export default function HomeScreen() {
                                             style={{
                                                 paddingVertical: WIDTH * 0.02
                                             }}
+                                            showsHorizontalScrollIndicator={false}
                                         />
                                 }
                             </View>

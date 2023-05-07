@@ -180,7 +180,7 @@ export default function CartScreen() {
 
     return (
         <SafeAreaView style={{flex: 1}}>
-            <ScrollView>
+            <View>
                 {/*<StepCheckoutComponent/>*/}
 
                 {/*<Card style={{*/}
@@ -401,6 +401,8 @@ export default function CartScreen() {
                         ItemSeparatorComponent={() => {
                             return (<Divider style={{marginVertical: WIDTH * 0.01}}/>);
                         }}
+                        nestedScrollEnabled={true}
+                        showsVerticalScrollIndicator={false}
                     />
                 </Card>
 
@@ -538,7 +540,7 @@ export default function CartScreen() {
                         </Text>
                     </TouchableOpacity>
                 </Card>
-            </ScrollView>
+            </View>
 
             <TouchableOpacity
                 style={{

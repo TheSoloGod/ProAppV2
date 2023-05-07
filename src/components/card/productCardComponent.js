@@ -33,14 +33,14 @@ export default function ProductCardComponent(props) {
                 }}
             >
                 <EImage
-                    source={{uri: item.variants[0].variant_images[0].uri}}
+                    source={{uri: item.variants[0].variant_images[0].image}}
                     style={{
                         width: WIDTH * 0.48,
                         height: WIDTH * 0.48,
                         borderTopLeftRadius: WIDTH * 0.02,
                         borderTopRightRadius: WIDTH * 0.02,
                     }}
-                    resizeMode={'contain'}
+                    resizeMode={'cover'}
                 />
                 <View>
                     <Text style={{

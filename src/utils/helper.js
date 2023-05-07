@@ -1,4 +1,4 @@
-import * as Constant from "../utils/constant";
+import {WIDTH, WIDTH_DESIGN} from './constant';
 import { View, Text, Clipboard, Linking, TouchableOpacity, Image, ScrollView, SafeAreaView, Platform, StyleSheet, Keyboard, KeyboardAvoidingView } from 'react-native';
 import {gold, platinum, silver, standard, medalPlatinum, medalGold, medalSilver, medalStandard} from '../assets/ranks';
 
@@ -64,3 +64,7 @@ export function getMemberMedal(rank) {
             return medalStandard;
     }
 }
+
+export const actualSize = (sizeDesign) => {
+    return (WIDTH / WIDTH_DESIGN) * sizeDesign;
+};

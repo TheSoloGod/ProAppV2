@@ -1,8 +1,10 @@
 import { Dimensions } from 'react-native';
 
-// screen size
+/** screen size */
 export const WIDTH = Dimensions.get('window').width;
 export const HEIGHT = Dimensions.get('window').height;
+export const WIDTH_DESIGN = 375;
+export const HEIGHT_DESIGN = 812;
 
 export const IOS_WIDTH = 414;
 export const ANDROID_SMALL_WIDTH = 320;
